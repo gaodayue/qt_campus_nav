@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/campus_flat.png</file>
+        <file>images/campus_concrete.jpg</file>
+    </qresource>
+</RCC>
