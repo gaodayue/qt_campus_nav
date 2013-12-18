@@ -14,10 +14,12 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
+    graph.cpp \
     mapping.cpp \
     position.cpp
 
 HEADERS  += mainwindow.h \
+    graph.h \
     mapping.h \
     position.h
 
