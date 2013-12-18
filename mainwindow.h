@@ -25,6 +25,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     QGraphicsScene * scene;
+    QPen * pen;
     int startX;
     int startY;
 };

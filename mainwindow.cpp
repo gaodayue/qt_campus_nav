@@ -8,6 +8,10 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    pen = new QPen();
+    pen->setBrush(Qt::green);
+    pen->setWidth(3);
+
     // show images
     scene = new QGraphicsScene();
     scene->addPixmap(QPixmap(":/images/campus_flat.png"));
@@ -58,5 +62,5 @@ void MainWindow::on_endButton_clicked()
 
     // start drawing line from start point to end point
     // direct line! need fix!
-    scene->addLine(startX, startY, x, y);
+    scene->addLine(startX, startY, x, y, *pen);
 }
