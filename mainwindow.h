@@ -21,6 +21,8 @@ private slots:
     void on_startButton_clicked();
 
     void on_endButton_clicked();
+    std::list<std::pair<double, double> >   getWay(double lat, double lon);
+
 
 private:
     Ui::MainWindow *ui;

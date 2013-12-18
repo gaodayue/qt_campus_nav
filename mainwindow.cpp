@@ -33,8 +33,8 @@ void MainWindow::on_startButton_clicked()
 {
     Mapping *m = new Mapping;
     // testing coordinate
-    double lat = 39.9513795787521;
-    double lon = 116.340297150787;
+    double lat = 39.951445375634954;
+    double lon = 116.33830158728031;
     int x = m->xPos(lon);
     int y = m->yPos(lat);
     startX = x;
@@ -46,21 +46,42 @@ void MainWindow::on_startButton_clicked()
                 QPen(), QBrush(Qt::green));
 }
 
+std::list<std::pair<double, double> >   MainWindow::getWay(double lat, double lon)
+{
+    std::list<std::pair<double, double> > way;
+    std::pair<double, double> point = std::make_pair(39.951445375634954, 116.33830158728031);
+    way.push_back(point);
+    std::pair<double, double> point3 = std::make_pair(39.9512233108989, 116.33932082670597);
+    way.push_back(point3);
+
+
+
+    std::pair<double, double> point2 = std::make_pair(39.95102386325794, 116.34042053240208);
+    way.push_back(point2);
+
+    return way;
+}
+
+
 void MainWindow::on_endButton_clicked()
 {
-    Mapping *m = new Mapping;
-    // testing coordinate
-    double lat = 39.9510795787521;
-    double lon = 116.340297150787;
-    int x = m->xPos(lon);
-    int y = m->yPos(lat);
 
-    // drawing point
-    double rad = 2; // the point radius
-    scene->addEllipse(x-rad, y-rad, rad*2.0, rad*2.0,
-                QPen(), QBrush(Qt::green));
+   Mapping *m = new Mapping;
+   std::list<std::pair<double, double> > way = this->getWay(39.95102386325794, 116.34042053240208);
 
-    // start drawing line from start point to end point
-    // direct line! need fix!
-    scene->addLine(startX, startY, x, y, *pen);
+   //Drawing lines
+   int x;
+   int y;
+   for (std::list<std::pair<double, double> >::iterator it=way.begin(); it != way.end(); ++it) {
+       if (it != way.begin()) {
+           scene->addLine(x, y, m->xPos((*it).second), m->yPos((*it).first), *pen);
+       }
+       x = m->xPos((*it).second);
+       y = m->yPos((*it).first);
+       // drawing point
+       double rad = 2;
+       scene->addEllipse(x-rad, y-rad, rad*2.0, rad*2.0,
+                          QPen(), QBrush(Qt::green));
+   }
+
 }
