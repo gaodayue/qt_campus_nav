@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "mapping.h"
 #include <math.h>
 
 #define SCREEN_WIDTH 960
@@ -102,7 +101,7 @@ void MainWindow::on_endButton_clicked()
 
    // drawing flag
    QGraphicsPixmapItem *item = new QGraphicsPixmapItem(QPixmap(":/images/endflag.png"));
-   QGraphicsPixmapItem *item = new QGraphicsPixmapItem(QPixmap("/gps/images/endflag.png"));
+   //QGraphicsPixmapItem *item = new QGraphicsPixmapItem(QPixmap("/gps/images/endflag.png"));
    item->setPos(x ,y-35); // image height is 35
    scene->addItem(item);
 }
