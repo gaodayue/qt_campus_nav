@@ -3,10 +3,27 @@
 
 #include <QMainWindow>
 #include <QGraphicsScene>
+#include "graph.h"
+
+#define NUM_NODES 24
 
 namespace Ui {
 class MainWindow;
 }
+
+class Node {
+public:
+    friend class MainWindow;
+    Node(double longitude, double latitude, int x, int y):
+        longitude(longitude), latitude(latitude), x(x), y(y) {}
+private:
+    double longitude;
+    double latitude;
+    int x;
+    int y;
+};
+
+extern Node nodes[NUM_NODES];
 
 class MainWindow : public QMainWindow
 {
@@ -19,17 +36,22 @@ public:
 private slots:
 
     void on_startButton_clicked();
-
     void on_endButton_clicked();
-    std::list<std::pair<double, double> >   getWay(double lat, double lon);
 
 
 private:
+    int map2x(double longitude);
+    int map2y(double latitude);
+
+    int nearistNode(double longitude, double latitude);
+    void buildGraph();
+
     Ui::MainWindow *ui;
-    QGraphicsScene * scene;
-    QPen * pen;
-    int startX;
-    int startY;
+    QGraphicsScene *scene;
+    QPen *pen;
+    Graph *graph;
+
+    int startNode;
 };
 
 #endif // MAINWINDOW_H
