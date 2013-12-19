@@ -6,16 +6,17 @@ myGraphicsView::myGraphicsView(QWidget *parent) :
     QGraphicsView(parent)
 {
     viewport()->setAttribute(Qt::WA_AcceptTouchEvents);
+    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setDragMode(ScrollHandDrag);
 }
 
 bool myGraphicsView::viewportEvent(QEvent *event){
-    switch (event->type()){
+    /*switch (event->type()){
     case QEvent::TouchBegin:
     case QEvent::TouchUpdate:
     case QEvent::TouchEnd:
     {
-        printf("TOUCHED!\n");
         QTouchEvent *touchEvent = static_cast<QTouchEvent *>(event);
         QList<QTouchEvent::TouchPoint> touchPoints = touchEvent->touchPoints();
         if (touchPoints.count() > 0) {
@@ -32,6 +33,6 @@ bool myGraphicsView::viewportEvent(QEvent *event){
     }
     default:
         break;
-    }
+    }*/
     return QGraphicsView::viewportEvent(event);
 }

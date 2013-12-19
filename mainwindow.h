@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QGraphicsScene>
 #include <QGraphicsView>
+#include <QGraphicsPixmapItem>
 #include <QTouchEvent>
 
 namespace Ui {
@@ -17,6 +18,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
 
 private slots:
 
@@ -33,6 +35,10 @@ private:
     QPen * pen;
     int startX;
     int startY;
+    static int xPos(double);
+    static int yPos(double);
+    static double latitude(int);
+    static double longitude(int);
 };
 
 #endif // MAINWINDOW_H

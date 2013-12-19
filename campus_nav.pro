@@ -14,12 +14,10 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    mapping.cpp \
     position.cpp \
     mygraphicsview.cpp
 
 HEADERS  += mainwindow.h \
-    mapping.h \
     position.h \
     mygraphicsview.h
 
