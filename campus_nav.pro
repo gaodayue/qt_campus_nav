@@ -15,13 +15,15 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     mapping.cpp \
-    position.cpp
+    position.cpp \
+    mygraphicsview.cpp
 
 HEADERS  += mainwindow.h \
     mapping.h \
-    position.h
+    position.h \
+    mygraphicsview.h
 
 FORMS    += mainwindow.ui
 
-RESOURCES += \
-    resources.qrc
+#RESOURCES += \
+#    resources.qrc

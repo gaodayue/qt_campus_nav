@@ -14,14 +14,21 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // show images
     scene = new QGraphicsScene();
-    scene->addPixmap(QPixmap(":/images/campus_flat.png"));
+    //scene->addPixmap(QPixmap(":/images/campus_flat.png"));
+    scene->addPixmap(QPixmap("/gps/images/campus_flat.png"));
+
+    //gv = new QGraphicsView();
+    //gv->resize(480, 213);
+    //gv->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    //gv->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    //gv->setScene(scene);
     //ui->graphicsView->resize(480, 272);
     //ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     //ui->graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
 
     ui->graphicsView->setScene(scene);
-
     //ui->menuBar->addMenu("Menu 1");
+    //setCentralWidget(gv);
 }
 
 MainWindow::~MainWindow()

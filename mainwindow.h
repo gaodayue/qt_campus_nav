@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include <QGraphicsScene>
+#include <QGraphicsView>
+#include <QTouchEvent>
 
 namespace Ui {
 class MainWindow;
@@ -26,6 +28,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    QGraphicsView * gv;
     QGraphicsScene * scene;
     QPen * pen;
     int startX;
