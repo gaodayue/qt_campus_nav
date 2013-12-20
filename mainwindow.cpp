@@ -23,29 +23,29 @@
 
 Node nodes[NUM_NODES] = {
     Node(0, 0, 0, 0),   // dummy node, just to make index count from 1
-    Node(116.3402435,	39.95160164,	322,	173),
-    Node(116.341134,	39.95176613,	427,	146),
-    Node(116.3393208,	39.95122331,	216,	229),
-    Node(116.3402972,	39.95137958,	327,	197),
-    Node(116.3394442,	39.95085115,	229,	292),
-    Node(116.3404205,	39.95102386,	346,	264),
-    Node(116.3413164,	39.95118836,	443,	239),
-    Node(116.3427326,	39.95144332,	601,	199),
-    Node(116.34424,     39.95171473,	767,	159),
-    Node(116.3429204,	39.95078946,	621,	293),
-    Node(116.3438913,	39.95096629,	719,	268),
-    Node(116.3444117,	39.95106499,	787,	249),
-    Node(116.3407317,	39.95002456,	376,	405),
-    Node(116.3412306,	39.9501027,     428,	392),
-    Node(116.3415739,	39.95016438,	466,	382),
-    Node(116.3430115,	39.95042757,	631,	343),
-    Node(116.3440469,	39.95029186,	743,	374),
-    Node(116.3446155,	39.95039467,	810,	355),
-    Node(116.3431886,	39.9499382,     652,	419),
-    Node(116.3440844,	39.95009447,	747,	392),
-    Node(116.3414505,	39.94928844,	456,	515),
-    Node(116.3433066,	39.94959687,	661,	461),
-    Node(116.343902,	39.94968323,	752,	432)
+    Node(116.3340944051,	39.9503661462,	322,	173),
+    Node(116.3349956274,	39.9505100762,	427,	146),
+    Node(116.3331770897,	39.9499795896,	216,	229),
+    Node(116.3340783119,	39.9501358603,	327,	197),
+    Node(116.3332951069,	39.9495765740,	229,	292),
+    Node(116.3342499733,	39.9497287332,	346,	264),
+    Node(116.3351619244,	39.9498932293,	443,	239),
+    Node(116.3365727663,	39.9501194107,	601,	199),
+    Node(116.3380587101,	39.9503661533,	767,	159),
+    Node(116.3367873430,	39.9494861008,	621,	293),
+    Node(116.3377153873,	39.9496464851,	719,	268),
+    Node(116.3382518291,	39.9497451829,	787,	249),
+    Node(116.3345450163,	39.9487417486,	376,	405),
+    Node(116.3350117207,	39.9488116605,	428,	392),
+    Node(116.3353818655,	39.9488939096,	466,	382),
+    Node(116.3368248940,	39.9490913073,	631,	343),
+    Node(116.3379031420,	39.9489967210,	743,	374),
+    Node(116.3384556770,	39.9490954197,	810,	355),
+    Node(116.3369536400,	39.9486471618,	652,	419),
+    Node(116.3378763199,	39.9487910981,	747,	392),
+    Node(116.3355374336,	39.9480220633,	456,	515),
+    Node(116.3369590044,	39.9482482509,	661,	461),
+    Node(116.3378065825,	39.9484250880,	752,	432)
 };
 
 void MainWindow::buildGraph()
@@ -140,7 +140,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // show images
     scene = new QGraphicsScene();
-//  scene->addPixmap(QPixmap(":/images/campus_flat.png"));
+//    scene->addPixmap(QPixmap(":/images/campus_flat.png"));
     scene->addPixmap(QPixmap("/gps/images/campus_flat.png"));
 
     ui->graphicsView->resize(480, 272);
@@ -167,11 +167,10 @@ MainWindow::~MainWindow()
 void MainWindow::on_startButton_clicked()
 {
     restarted = false;
-    // TODO: should get location from GPS and
-    // calculate nearest startNode
     double longitude = 116.3402435;
     double latitude = 39.95160164;
 
+    GPSUtils::get_location(&longitude, &latitude);
     GPSUtils::record_location(longitude, latitude);
 
     int startNode = nearestNode(longitude, latitude);
@@ -201,8 +200,9 @@ void MainWindow::on_endButton_clicked()
     startNode = this->nearestNode(start_long, start_lati);
 
     // get end node from GPS
-    end_long = 116.343902;
-    end_lati = 39.94968323;
+    GPSUtils::get_location(&end_long, &end_lati);
+    end_long = 116.3359558582;
+    end_lati = 39.9490748575;
     endNode = this->nearestNode(end_long, end_lati);
 
     QLinkedList<int> path = graph->shortestPath(startNode, endNode);
@@ -234,7 +234,7 @@ void MainWindow::on_endButton_clicked()
         else if (restarted)
         {   // if the device restart, should draw startNode too
             Node node = nodes[startNode];
-        //    QGraphicsPixmapItem *startFlag = new QGraphicsPixmapItem(QPixmap(":/images/flag.png"));
+//            QGraphicsPixmapItem *startFlag = new QGraphicsPixmapItem(QPixmap(":/images/flag.png"));
             QGraphicsPixmapItem *startFlag = new QGraphicsPixmapItem(QPixmap("/gps/images/flag.png"));
             startFlag->setPos(node.x - POINT_RADIUS, node.y - 35);
             scene->addItem(startFlag);
