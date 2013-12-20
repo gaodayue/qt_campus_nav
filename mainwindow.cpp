@@ -130,14 +130,18 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    connect(ui->closeButton, SIGNAL(clicked()), this, SLOT(close()));
+
+    setWindowFlags(Qt::FramelessWindowHint);
+
     pen = new QPen();
     pen->setBrush(Qt::green);
     pen->setWidth(3);
 
     // show images
     scene = new QGraphicsScene();
-    scene->addPixmap(QPixmap(":/images/campus_flat.png"));
-    //scene->addPixmap(QPixmap("/gps/images/campus_flat.png"));
+//  scene->addPixmap(QPixmap(":/images/campus_flat.png"));
+    scene->addPixmap(QPixmap("/gps/images/campus_flat.png"));
 
     ui->graphicsView->resize(480, 272);
     ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -180,8 +184,8 @@ void MainWindow::on_startButton_clicked()
                       node.y - POINT_RADIUS,
                       2 * POINT_RADIUS,
                       2 * POINT_RADIUS);
-    QGraphicsPixmapItem *flag = new QGraphicsPixmapItem(QPixmap(":/images/flag.png"));
-//    QGraphicsPixmapItem *flag = new QGraphicsPixmapItem(QPixmap("/gps/images/flag.png"));
+//    QGraphicsPixmapItem *flag = new QGraphicsPixmapItem(QPixmap(":/images/flag.png"));
+    QGraphicsPixmapItem *flag = new QGraphicsPixmapItem(QPixmap("/gps/images/flag.png"));
     flag->setPos(node.x - POINT_RADIUS, node.y - 35);
     scene->addItem(flag);
     ui->graphicsView->centerOn(QPointF(node.x, node.y));
@@ -230,8 +234,8 @@ void MainWindow::on_endButton_clicked()
         else if (restarted)
         {   // if the device restart, should draw startNode too
             Node node = nodes[startNode];
-            QGraphicsPixmapItem *startFlag = new QGraphicsPixmapItem(QPixmap(":/images/flag.png"));
-        //    QGraphicsPixmapItem *flag = new QGraphicsPixmapItem(QPixmap("/gps/images/flag.png"));
+        //    QGraphicsPixmapItem *startFlag = new QGraphicsPixmapItem(QPixmap(":/images/flag.png"));
+            QGraphicsPixmapItem *startFlag = new QGraphicsPixmapItem(QPixmap("/gps/images/flag.png"));
             startFlag->setPos(node.x - POINT_RADIUS, node.y - 35);
             scene->addItem(startFlag);
             ui->graphicsView->centerOn(QPointF(node.x, node.y));
@@ -242,8 +246,8 @@ void MainWindow::on_endButton_clicked()
 
     // Draw the end flag
     Node destination = nodes[endNode];
-    QGraphicsPixmapItem *flag = new QGraphicsPixmapItem(QPixmap(":/images/endflag.png"));
-//    QGraphicsPixmapItem *flag = new QGraphicsPixmapItem(QPixmap("/gps/images/endflag.png"));
+//    QGraphicsPixmapItem *flag = new QGraphicsPixmapItem(QPixmap(":/images/endflag.png"));
+    QGraphicsPixmapItem *flag = new QGraphicsPixmapItem(QPixmap("/gps/images/endflag.png"));
     flag->setPos(destination.x, destination.y - 35);
     scene->addItem(flag);
 }
