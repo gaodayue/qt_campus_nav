@@ -39,6 +39,13 @@ QLinkedList<WeightedEdge> Graph::edges(int v)
 // assume from != to and 0 <= from|to < N
 QLinkedList<int> Graph::shortestPath(int from, int to)
 {
+    QLinkedList<int> path;
+    if (from == to)
+    {
+        path << from;
+        return path;
+    }
+
     vector<int> parent(this->N);
     vector<int> dist(this->N);
     vector<bool> computed(this->N);
@@ -79,7 +86,6 @@ QLinkedList<int> Graph::shortestPath(int from, int to)
         stack.push(v);
     stack.push(from);
 
-    QLinkedList<int> path;
     while (!stack.isEmpty())
         path << stack.pop();
 

@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "mapping.h"
 #include <QDebug>
+#include <QGraphicsPixmapItem>
 
 //------------------------------------
 // for converting
@@ -121,8 +122,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // show images
     scene = new QGraphicsScene();
-    //scene->addPixmap(QPixmap(":/images/campus_flat.png"));
-    scene->addPixmap(QPixmap("/gps/images/campus_flat.png"));
+    scene->addPixmap(QPixmap(":/images/campus_flat.png"));
+    //scene->addPixmap(QPixmap("/gps/images/campus_flat.png"));
 
     ui->graphicsView->resize(480, 272);
     ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -151,17 +152,22 @@ void MainWindow::on_startButton_clicked()
     Node node = nodes[startNode];
 
     // drawing point
-    scene->addEllipse(node.x,
-                      node.y,
+
+    scene->addEllipse(node.x - POINT_RADIUS,
+                      node.y - POINT_RADIUS,
                       2 * POINT_RADIUS,
                       2 * POINT_RADIUS);
+    QGraphicsPixmapItem *flag = new QGraphicsPixmapItem(QPixmap(":/images/flag.png"));
+//    QGraphicsPixmapItem *flag = new QGraphicsPixmapItem(QPixmap("/gps/images/flag.png"));
+    flag->setPos(node.x - POINT_RADIUS, node.y - 35);
+    scene->addItem(flag);
 }
 
 void MainWindow::on_endButton_clicked()
 {
     // TODO: should get localtion from GPS and
     // calculate the nearist endNode
-    const int end_node = 17;
+    const int end_node = 3;
 
     QLinkedList<int> path = graph->shortestPath(startNode, end_node);
 
@@ -183,9 +189,18 @@ void MainWindow::on_endButton_clicked()
             // draw line
             scene->addLine(from.x, from.y, to.x, to.y, *pen);
             // draw point
-            scene->addEllipse(to.x, to.y, 2 * POINT_RADIUS, 2 * POINT_RADIUS);
+            scene->addEllipse(to.x - POINT_RADIUS,
+                              to.y - POINT_RADIUS,
+                              2 * POINT_RADIUS,
+                              2 * POINT_RADIUS);
         }
         prev = i;
     }
 
+    // Draw the end flag
+    Node destination = nodes[end_node];
+    QGraphicsPixmapItem *flag = new QGraphicsPixmapItem(QPixmap(":/images/endflag.png"));
+//    QGraphicsPixmapItem *flag = new QGraphicsPixmapItem(QPixmap("/gps/images/endflag.png"));
+    flag->setPos(destination.x, destination.y - 35);
+    scene->addItem(flag);
 }
