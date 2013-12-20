@@ -16,12 +16,12 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     graph.cpp \
     mapping.cpp \
-    position.cpp
+    gpsutils.cpp
 
 HEADERS  += mainwindow.h \
     graph.h \
     mapping.h \
-    position.h
+    gpsutils.h
 
 FORMS    += mainwindow.ui
 
