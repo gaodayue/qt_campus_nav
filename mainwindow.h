@@ -43,7 +43,7 @@ private:
     int map2x(double longitude);
     int map2y(double latitude);
 
-    int nearistNode(double longitude, double latitude);
+    int nearestNode(double longitude, double latitude);
     void buildGraph();
 
     Ui::MainWindow *ui;

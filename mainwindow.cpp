@@ -105,7 +105,7 @@ int MainWindow::map2y(double latitude)
     return (int)round(y);
 }
 
-int MainWindow::nearistNode(double longitude, double latitude)
+int MainWindow::nearestNode(double longitude, double latitude)
 {
 
     int lastNearest = -1;
@@ -160,8 +160,8 @@ MainWindow::~MainWindow()
 void MainWindow::on_startButton_clicked()
 {
     // TODO: should get location from GPS and
-    // calculate nearist startNode
-    startNode = nearistNode(116.3402435, 39.95160164);
+    // calculate nearest startNode
+    startNode = nearestNode(116.3402435, 39.95160164);
 
     Node node = nodes[startNode];
 
@@ -175,13 +175,14 @@ void MainWindow::on_startButton_clicked()
 //    QGraphicsPixmapItem *flag = new QGraphicsPixmapItem(QPixmap("/gps/images/flag.png"));
     flag->setPos(node.x - POINT_RADIUS, node.y - 35);
     scene->addItem(flag);
+    ui->graphicsView->centerOn(QPointF(node.x, node.y));
 }
 
 void MainWindow::on_endButton_clicked()
 {
     // TODO: should get localtion from GPS and
-    // calculate the nearist endNode
-    const int end_node = nearistNode(116.343902,39.94968323);
+    // calculate the nearest endNode
+    const int end_node = nearestNode(116.343902,39.94968323);
 
     QLinkedList<int> path = graph->shortestPath(startNode, end_node);
 
@@ -217,4 +218,5 @@ void MainWindow::on_endButton_clicked()
 //    QGraphicsPixmapItem *flag = new QGraphicsPixmapItem(QPixmap("/gps/images/endflag.png"));
     flag->setPos(destination.x, destination.y - 35);
     scene->addItem(flag);
+    ui->graphicsView->centerOn(QPointF(destination.x, destination.y));
 }
