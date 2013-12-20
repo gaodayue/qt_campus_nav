@@ -15,12 +15,10 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     graph.cpp \
-    mapping.cpp \
     gpsutils.cpp
 
 HEADERS  += mainwindow.h \
     graph.h \
-    mapping.h \
     gpsutils.h
 
 FORMS    += mainwindow.ui
