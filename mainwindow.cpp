@@ -106,7 +106,20 @@ int MainWindow::map2y(double latitude)
 
 int MainWindow::nearistNode(double longitude, double latitude)
 {
-    return 0; // TODO
+
+    int lastNearest = -1;
+    double lastDistance = -1;
+    double currentDistance = 0;
+    for(int i = 1; i < NUM_NODES; ++i) {
+        currentDistance = pow(longitude - nodes[i].longitude, 2.0)
+                + pow(latitude - nodes[i].latitude, 2.0);
+        if (currentDistance < lastDistance || lastDistance == -1)
+            {
+               lastDistance = currentDistance;
+               lastNearest = i;
+            }
+    }
+    return lastNearest;
 }
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -121,8 +134,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // show images
     scene = new QGraphicsScene();
-    //scene->addPixmap(QPixmap(":/images/campus_flat.png"));
-    scene->addPixmap(QPixmap("/gps/images/campus_flat.png"));
+    scene->addPixmap(QPixmap(":/images/campus_flat.png"));
+    //scene->addPixmap(QPixmap("/gps/images/campus_flat.png"));
 
     ui->graphicsView->resize(480, 272);
     ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -147,7 +160,8 @@ void MainWindow::on_startButton_clicked()
 {
     // TODO: should get location from GPS and
     // calculate nearist startNode
-    startNode = 3;
+    startNode = nearistNode(116.3402435, 39.95160164);
+
     Node node = nodes[startNode];
 
     // drawing point
@@ -161,7 +175,7 @@ void MainWindow::on_endButton_clicked()
 {
     // TODO: should get localtion from GPS and
     // calculate the nearist endNode
-    const int end_node = 17;
+    const int end_node = nearistNode(116.343902,39.94968323);
 
     QLinkedList<int> path = graph->shortestPath(startNode, end_node);
 
