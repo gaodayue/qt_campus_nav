@@ -39,6 +39,8 @@ private slots:
     void on_endButton_clicked();
 
 
+    void on_mapButton_clicked();
+
 private:
     int map2x(double longitude);
     int map2y(double latitude);
@@ -52,7 +54,14 @@ private:
     QGraphicsScene *scene;
     QPen *pen;
     Graph *graph;
+    QGraphicsPixmapItem *map;
 
+    QPixmap *bg_flat;
+    QPixmap *bg_real;
+    QPixmap *start_flag;
+    QPixmap *end_flag;
+
+    bool isFlat;
     bool restarted;
 };
 

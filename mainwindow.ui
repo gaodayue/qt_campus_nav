@@ -41,25 +41,25 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>30</width>
-      <height>27</height>
+      <width>51</width>
+      <height>31</height>
      </rect>
     </property>
     <property name="text">
-     <string>A</string>
+     <string>from</string>
     </property>
    </widget>
    <widget class="QPushButton" name="endButton">
     <property name="geometry">
      <rect>
-      <x>30</x>
+      <x>50</x>
       <y>0</y>
-      <width>30</width>
-      <height>27</height>
+      <width>51</width>
+      <height>31</height>
      </rect>
     </property>
     <property name="text">
-     <string>B</string>
+     <string>to</string>
     </property>
    </widget>
    <widget class="QPushButton" name="closeButton">
@@ -73,6 +73,19 @@
     </property>
     <property name="text">
      <string>X</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="mapButton">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>240</y>
+      <width>51</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>views</string>
     </property>
    </widget>
   </widget>

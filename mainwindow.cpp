@@ -130,7 +130,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    connect(ui->closeButton, SIGNAL(clicked()), this, SLOT(close()));
+    connect(ui->closeButton, SIGNAL(clicked()), this, SLOT(close())); // the close button (X)
 
     setWindowFlags(Qt::FramelessWindowHint);
 
@@ -138,10 +138,15 @@ MainWindow::MainWindow(QWidget *parent) :
     pen->setBrush(Qt::green);
     pen->setWidth(3);
 
+    bg_flat     = new QPixmap(":/images/campus_flat.png");
+    bg_real     = new QPixmap(":/images/campus_concrete.jpg");
+    start_flag  = new QPixmap(":/images/flag.png");
+    end_flag    = new QPixmap(":/images/endflag.png");
+
     // show images
     scene = new QGraphicsScene();
-//    scene->addPixmap(QPixmap(":/images/campus_flat.png"));
-    scene->addPixmap(QPixmap("/gps/images/campus_flat.png"));
+    map = scene->addPixmap(*bg_flat);
+    isFlat = true;
 
     ui->graphicsView->resize(480, 272);
     ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -159,6 +164,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+    delete bg_flat;
+    delete bg_real;
+    delete start_flag;
+    delete end_flag;
+
     delete pen;
     delete graph;
     delete ui;
@@ -167,10 +177,12 @@ MainWindow::~MainWindow()
 void MainWindow::on_startButton_clicked()
 {
     restarted = false;
-    double longitude = 116.3402435;
-    double latitude = 39.95160164;
+    double longitude, latitude;
 
     GPSUtils::get_location(&longitude, &latitude);
+    // Siyuan location
+//    longitude = 116.3350707293;
+//    latitude = 39.9501194107;
     GPSUtils::record_location(longitude, latitude);
 
     int startNode = nearestNode(longitude, latitude);
@@ -183,8 +195,7 @@ void MainWindow::on_startButton_clicked()
                       node.y - POINT_RADIUS,
                       2 * POINT_RADIUS,
                       2 * POINT_RADIUS);
-//    QGraphicsPixmapItem *flag = new QGraphicsPixmapItem(QPixmap(":/images/flag.png"));
-    QGraphicsPixmapItem *flag = new QGraphicsPixmapItem(QPixmap("/gps/images/flag.png"));
+    QGraphicsPixmapItem *flag = new QGraphicsPixmapItem(*start_flag);
     flag->setPos(node.x - POINT_RADIUS, node.y - 35);
     scene->addItem(flag);
     ui->graphicsView->centerOn(QPointF(node.x, node.y));
@@ -201,8 +212,9 @@ void MainWindow::on_endButton_clicked()
 
     // get end node from GPS
     GPSUtils::get_location(&end_long, &end_lati);
-    end_long = 116.3359558582;
-    end_lati = 39.9490748575;
+    // Yifu location
+//    end_long = 116.3384878635;
+//    end_lati = 39.9503702656;
     endNode = this->nearestNode(end_long, end_lati);
 
     QLinkedList<int> path = graph->shortestPath(startNode, endNode);
@@ -234,8 +246,7 @@ void MainWindow::on_endButton_clicked()
         else if (restarted)
         {   // if the device restart, should draw startNode too
             Node node = nodes[startNode];
-//            QGraphicsPixmapItem *startFlag = new QGraphicsPixmapItem(QPixmap(":/images/flag.png"));
-            QGraphicsPixmapItem *startFlag = new QGraphicsPixmapItem(QPixmap("/gps/images/flag.png"));
+            QGraphicsPixmapItem *startFlag = new QGraphicsPixmapItem(*start_flag);
             startFlag->setPos(node.x - POINT_RADIUS, node.y - 35);
             scene->addItem(startFlag);
             ui->graphicsView->centerOn(QPointF(node.x, node.y));
@@ -246,11 +257,26 @@ void MainWindow::on_endButton_clicked()
 
     // Draw the end flag
     Node destination = nodes[endNode];
-//    QGraphicsPixmapItem *flag = new QGraphicsPixmapItem(QPixmap(":/images/endflag.png"));
-    QGraphicsPixmapItem *flag = new QGraphicsPixmapItem(QPixmap("/gps/images/endflag.png"));
+    QGraphicsPixmapItem *flag = new QGraphicsPixmapItem(*end_flag);
     flag->setPos(destination.x, destination.y - 35);
     scene->addItem(flag);
 }
+
+void MainWindow::on_mapButton_clicked()
+{
+    if(isFlat)
+    {
+        map->setPixmap(*bg_real);
+        isFlat = false;
+    }
+    else
+    {
+        map->setPixmap(*bg_flat);
+        isFlat = true;
+    }
+
+}
+
 
 void MainWindow::delay(int mSec)
 {
