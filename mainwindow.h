@@ -46,6 +46,8 @@ private:
     int nearestNode(double longitude, double latitude);
     void buildGraph();
 
+    void delay(int);
+
     Ui::MainWindow *ui;
     QGraphicsScene *scene;
     QPen *pen;

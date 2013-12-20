@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "mapping.h"
+#include <QTime>
 #include <QDebug>
 #include <QGraphicsPixmapItem>
 #include <gpsutils.h>
@@ -224,8 +224,11 @@ void MainWindow::on_endButton_clicked()
                               to.y - POINT_RADIUS,
                               2 * POINT_RADIUS,
                               2 * POINT_RADIUS);
+            ui->graphicsView->centerOn(QPointF(to.x, to.y));
+            delay(500); // micro seconds
         }
         prev = i;
+
     }
 
     // Draw the end flag
@@ -234,5 +237,12 @@ void MainWindow::on_endButton_clicked()
 //    QGraphicsPixmapItem *flag = new QGraphicsPixmapItem(QPixmap("/gps/images/endflag.png"));
     flag->setPos(destination.x, destination.y - 35);
     scene->addItem(flag);
-    ui->graphicsView->centerOn(QPointF(destination.x, destination.y));
+    //ui->graphicsView->centerOn(QPointF(destination.x, destination.y));
+}
+
+void MainWindow::delay(int mSec)
+{
+    QTime dieTime= QTime::currentTime().addMSecs(500);
+    while( QTime::currentTime() < dieTime )
+    QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
 }
