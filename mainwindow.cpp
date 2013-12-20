@@ -3,6 +3,7 @@
 #include "mapping.h"
 #include <QDebug>
 #include <QGraphicsPixmapItem>
+#include <gpsutils.h>
 
 //------------------------------------
 // for converting
@@ -148,6 +149,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->graphicsView->setDragMode(QGraphicsView::ScrollHandDrag);
 
     this->buildGraph();
+
+    restarted = true;
 }
 
 MainWindow::~MainWindow()
@@ -161,7 +164,12 @@ void MainWindow::on_startButton_clicked()
 {
     // TODO: should get location from GPS and
     // calculate nearest startNode
-    startNode = nearestNode(116.3402435, 39.95160164);
+    double longitude = 116.3402435;
+    double latitude = 39.95160164;
+
+    GPSUtils::record_location(longitude, latitude);
+
+    int startNode = nearestNode(longitude, latitude);
 
     Node node = nodes[startNode];
 
@@ -180,11 +188,19 @@ void MainWindow::on_startButton_clicked()
 
 void MainWindow::on_endButton_clicked()
 {
-    // TODO: should get localtion from GPS and
-    // calculate the nearest endNode
-    const int end_node = nearestNode(116.343902,39.94968323);
+    int startNode, endNode;
+    double start_long, start_lati, end_long, end_lati;
 
-    QLinkedList<int> path = graph->shortestPath(startNode, end_node);
+    // get start node from file
+    GPSUtils::read_location(&start_long, &start_lati);
+    startNode = this->nearestNode(start_long, start_lati);
+
+    // get end node from GPS
+    end_long = 116.343902;
+    end_lati = 39.94968323;
+    endNode = this->nearestNode(end_long, end_lati);
+
+    QLinkedList<int> path = graph->shortestPath(startNode, endNode);
 
     // log out path
     foreach(int i, path)
@@ -213,7 +229,7 @@ void MainWindow::on_endButton_clicked()
     }
 
     // Draw the end flag
-    Node destination = nodes[end_node];
+    Node destination = nodes[endNode];
     QGraphicsPixmapItem *flag = new QGraphicsPixmapItem(QPixmap(":/images/endflag.png"));
 //    QGraphicsPixmapItem *flag = new QGraphicsPixmapItem(QPixmap("/gps/images/endflag.png"));
     flag->setPos(destination.x, destination.y - 35);

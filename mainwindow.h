@@ -50,8 +50,6 @@ private:
     QGraphicsScene *scene;
     QPen *pen;
     Graph *graph;
-
-    int startNode;
 };
 
 #endif // MAINWINDOW_H
