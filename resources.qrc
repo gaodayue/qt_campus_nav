@@ -2,5 +2,7 @@
     <qresource prefix="/">
         <file>images/campus_flat.png</file>
         <file>images/campus_concrete.jpg</file>
+        <file>images/flag.png</file>
+        <file>images/endflag.png</file>
     </qresource>
 </RCC>

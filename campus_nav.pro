@@ -13,9 +13,13 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    graph.cpp \
+    gpsutils.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    graph.h \
+    gpsutils.h
 
 FORMS    += mainwindow.ui
 
