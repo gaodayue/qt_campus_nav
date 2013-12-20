@@ -162,6 +162,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_startButton_clicked()
 {
+    restarted = false;
     // TODO: should get location from GPS and
     // calculate nearest startNode
     double longitude = 116.3402435;
@@ -212,7 +213,6 @@ void MainWindow::on_endButton_clicked()
     int prev = -1;
     foreach(int i, path)
     {
-        // FIXME if the device restart, should draw startNode too
         if (i != startNode)
         {
             Node from = nodes[prev];
@@ -227,8 +227,17 @@ void MainWindow::on_endButton_clicked()
             ui->graphicsView->centerOn(QPointF(to.x, to.y));
             delay(500); // micro seconds
         }
-        prev = i;
+        else if (restarted)
+        {   // if the device restart, should draw startNode too
+            Node node = nodes[startNode];
+            QGraphicsPixmapItem *startFlag = new QGraphicsPixmapItem(QPixmap(":/images/flag.png"));
+        //    QGraphicsPixmapItem *flag = new QGraphicsPixmapItem(QPixmap("/gps/images/flag.png"));
+            startFlag->setPos(node.x - POINT_RADIUS, node.y - 35);
+            scene->addItem(startFlag);
+            ui->graphicsView->centerOn(QPointF(node.x, node.y));
+        }
 
+        prev = i;
     }
 
     // Draw the end flag
@@ -237,7 +246,6 @@ void MainWindow::on_endButton_clicked()
 //    QGraphicsPixmapItem *flag = new QGraphicsPixmapItem(QPixmap("/gps/images/endflag.png"));
     flag->setPos(destination.x, destination.y - 35);
     scene->addItem(flag);
-    //ui->graphicsView->centerOn(QPointF(destination.x, destination.y));
 }
 
 void MainWindow::delay(int mSec)

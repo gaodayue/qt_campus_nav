@@ -52,6 +52,8 @@ private:
     QGraphicsScene *scene;
     QPen *pen;
     Graph *graph;
+
+    bool restarted;
 };
 
 #endif // MAINWINDOW_H
