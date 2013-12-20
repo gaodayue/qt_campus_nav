@@ -3,6 +3,20 @@
 #include "mapping.h"
 #include <QDebug>
 
+//------------------------------------
+// for converting
+#include <math.h>
+
+#define SCREEN_WIDTH 960
+#define SCREEN_HEIGHT 544
+#define LON_RATIO 0.000008985640973
+#define LAT_RATIO -0.000006821052714
+#define X_RATIO 111288.666328474
+#define Y_RATIO -146604.936492225
+#define LAT_0 39.9527550177562
+#define LON_0 116.337367080619
+//------------------------------------
+
 #define POINT_RADIUS 2.0
 
 Node nodes[NUM_NODES] = {
@@ -79,13 +93,15 @@ void MainWindow::buildGraph()
 // mapping from longitude to x index of pixel
 int MainWindow::map2x(double longitude)
 {
-    return 0; // TODO
+    double x = (longitude-LON_0)*(X_RATIO);
+    return (int)round(x);
 }
 
 // mapping from latitude to y index of pixel
 int MainWindow::map2y(double latitude)
 {
-    return 0; // TODO
+    double y = (latitude-LAT_0)*(Y_RATIO);
+    return (int)round(y);
 }
 
 int MainWindow::nearistNode(double longitude, double latitude)
@@ -105,11 +121,12 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // show images
     scene = new QGraphicsScene();
-    scene->addPixmap(QPixmap(":/images/campus_flat.png"));
+    //scene->addPixmap(QPixmap(":/images/campus_flat.png"));
+    scene->addPixmap(QPixmap("/gps/images/campus_flat.png"));
 
-    //ui->graphicsView->resize(480, 272);
-    //ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-    //ui->graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    ui->graphicsView->resize(480, 272);
+    ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    ui->graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     ui->graphicsView->setRenderHint(QPainter::Antialiasing);
     ui->graphicsView->setScene(scene);
