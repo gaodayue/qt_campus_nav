@@ -130,7 +130,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    connect(ui->closeButton, SIGNAL(clicked()), this, SLOT(close()));
+    connect(ui->closeButton, SIGNAL(clicked()), this, SLOT(close())); // the close button (X)
 
     setWindowFlags(Qt::FramelessWindowHint);
 
@@ -139,9 +139,11 @@ MainWindow::MainWindow(QWidget *parent) :
     pen->setWidth(3);
 
     // show images
+    map = new QGraphicsPixmapItem();
     scene = new QGraphicsScene();
-//  scene->addPixmap(QPixmap(":/images/campus_flat.png"));
-    scene->addPixmap(QPixmap("/gps/images/campus_flat.png"));
+    map = scene->addPixmap(QPixmap(":/images/campus_flat.png"));
+//    map = scene->addPixmap(QPixmap("/gps/images/campus_flat.png"));
+    isFlat = true;
 
     ui->graphicsView->resize(480, 272);
     ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -184,8 +186,8 @@ void MainWindow::on_startButton_clicked()
                       node.y - POINT_RADIUS,
                       2 * POINT_RADIUS,
                       2 * POINT_RADIUS);
-//    QGraphicsPixmapItem *flag = new QGraphicsPixmapItem(QPixmap(":/images/flag.png"));
-    QGraphicsPixmapItem *flag = new QGraphicsPixmapItem(QPixmap("/gps/images/flag.png"));
+    QGraphicsPixmapItem *flag = new QGraphicsPixmapItem(QPixmap(":/images/flag.png"));
+//    QGraphicsPixmapItem *flag = new QGraphicsPixmapItem(QPixmap("/gps/images/flag.png"));
     flag->setPos(node.x - POINT_RADIUS, node.y - 35);
     scene->addItem(flag);
     ui->graphicsView->centerOn(QPointF(node.x, node.y));
@@ -234,8 +236,8 @@ void MainWindow::on_endButton_clicked()
         else if (restarted)
         {   // if the device restart, should draw startNode too
             Node node = nodes[startNode];
-        //    QGraphicsPixmapItem *startFlag = new QGraphicsPixmapItem(QPixmap(":/images/flag.png"));
-            QGraphicsPixmapItem *startFlag = new QGraphicsPixmapItem(QPixmap("/gps/images/flag.png"));
+            QGraphicsPixmapItem *startFlag = new QGraphicsPixmapItem(QPixmap(":/images/flag.png"));
+        //    QGraphicsPixmapItem *startFlag = new QGraphicsPixmapItem(QPixmap("/gps/images/flag.png"));
             startFlag->setPos(node.x - POINT_RADIUS, node.y - 35);
             scene->addItem(startFlag);
             ui->graphicsView->centerOn(QPointF(node.x, node.y));
@@ -246,11 +248,27 @@ void MainWindow::on_endButton_clicked()
 
     // Draw the end flag
     Node destination = nodes[endNode];
-//    QGraphicsPixmapItem *flag = new QGraphicsPixmapItem(QPixmap(":/images/endflag.png"));
-    QGraphicsPixmapItem *flag = new QGraphicsPixmapItem(QPixmap("/gps/images/endflag.png"));
+    QGraphicsPixmapItem *flag = new QGraphicsPixmapItem(QPixmap(":/images/endflag.png"));
+//    QGraphicsPixmapItem *flag = new QGraphicsPixmapItem(QPixmap("/gps/images/endflag.png"));
     flag->setPos(destination.x, destination.y - 35);
     scene->addItem(flag);
 }
+
+void MainWindow::on_mapButton_clicked()
+{
+    if(isFlat){
+        map->setPixmap(QPixmap(":/images/campus_concrete.jpg"));
+//        map->setPixmap(QPixmap("/gps/images/campus_concrete.jpg"));
+        isFlat = false;
+    }
+    else{
+        map->setPixmap(QPixmap(":/images/campus_flat.png"));
+//        map->setPixmap(QPixmap("/gps/images/campus_flat.png"));
+        isFlat = true;
+    }
+
+}
+
 
 void MainWindow::delay(int mSec)
 {
